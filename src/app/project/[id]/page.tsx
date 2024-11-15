@@ -17,6 +17,11 @@ export default async function Project({ params }: { params: { id: number } }) {
   const projects = await db.select().from(projectTable).where(eq(projectTable.id, id));
   const project = projects[0];
 
+  // Check if the project exists
+  if (!project) {
+    return <h1>Project not found</h1>; // Return a message if the project doesn't exist
+  }
+  
   if (project.userId !== userId) {
     return <h1>Not allowed to access project</h1>;
   }
@@ -25,7 +30,7 @@ export default async function Project({ params }: { params: { id: number } }) {
 
   return (
     <div>
-      <TaskList projectId={id} tasks={tasks} />;
+      <TaskList projectId={id!} tasks={tasks} />;
     </div>
   );
 }
