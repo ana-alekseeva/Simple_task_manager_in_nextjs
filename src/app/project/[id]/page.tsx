@@ -6,8 +6,10 @@ import { TaskList } from './task-list';
 
 
 export default async function Project({ params}: { params: { id: string } }) {
-  const { id } = params;
-  const projectId = parseInt(id);
+  const projectId = parseInt(params.id,10);
+  if (isNaN(projectId)) {
+    return <h1>Invalid project ID</h1>;
+  }
   
   const { userId } = await auth();
 
